@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/util
+    http://www.springframework.org/schema/util/spring-util.xsd
+    http://www.springframework.org/schema/data/jpa
+    http://www.springframework.org/schema/data/jpa/spring-jpa-1.0.xsd">
+
+    <jpa:repositories base-package="org.example.repository" />
+
+    <bean id="controller" class="org.example.controller.Controller">
+        <property name="service" ref="recordService"/>
+    </bean>
+
+    <bean id="recordService" class="org.example.service.RecordServiceImpl">
+        <property name="functionMap" ref="functions"/>
+        <property name="recordRepository" ref="recordRepository"/>
+    </bean>
+
+    <bean id="avgFunction" class="org.example.service.function.AvgFunction">
+        <property name="recordRepository" ref="recordRepository"/>
+    </bean>
+
+    <bean id="countFunction" class="org.example.service.function.CountFunction">
+        <property name="recordRepository" ref="recordRepository"/>
+    </bean>
+
+    <bean id="maxFunction" class="org.example.service.function.MaxFunction">
+        <property name="recordRepository" ref="recordRepository"/>
+    </bean>
+
+    <bean id="minFunction" class="org.example.service.function.MinFunction">
+        <property name="recordRepository" ref="recordRepository"/>
+    </bean>
+
+    <bean id="sumFunction" class="org.example.service.function.SumFunction">
+        <property name="recordRepository" ref="recordRepository"/>
+    </bean>
+
+    <util:map id="functions" map-class="java.util.HashMap">
+        <entry key="avg" value-ref="avgFunction"/>
+        <entry key="count" value-ref="countFunction"/>
+        <entry key="max" value-ref="maxFunction"/>
+        <entry key="min" value-ref="minFunction"/>
+        <entry key="sum" value-ref="sumFunction"/>
+    </util:map>
+
+</beans>
