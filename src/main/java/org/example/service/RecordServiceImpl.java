@@ -36,7 +36,7 @@ public class RecordServiceImpl implements RecordService {
     public int calculateFunction(String functionName, String ids) {
         Function function = functionMap.get(functionName);
         List<Integer> idsList = new ArrayList<>();
-        if (ids != null) {
+        if (!ids.isEmpty()) {
             idsList = Stream.of(ids.split(","))
                     .map(String::trim)
                     .map(Integer::parseInt)
@@ -48,10 +48,10 @@ public class RecordServiceImpl implements RecordService {
     @Override
     public Map<String, String> validateCalculation(String function, String ids) {
         Map<String, String> errorMap = new HashMap<>();
-        if (function.isEmpty() || ids.isEmpty()) {
-            errorMap.put("emptiness", "Fields are required!");
+        if (function.isEmpty()) {
+            errorMap.put("emptiness", "Function field are required!");
         }
-        if (!ids.matches("(\\d+)(,\\s*\\d+)*")) {
+        if (!ids.isEmpty() && !ids.matches("(\\d+)(,\\s*\\d+)*")) {
             errorMap.put("wrongString", "Ids' values must be filled in with a comma!");
         }
         if (recordRepository.findAll().isEmpty()) {
